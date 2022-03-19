@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public GameEvent gameOverEvent;
   private const float DashDuration = 0.1f;
 
   [SerializeField] private Animator anim;
@@ -29,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
   {
     HandleJump();
     HandleDash();
+  }
+
+  private void OnEnable() {
+      transform.localPosition = new Vector3(0f, 0.9939f, 0f);
   }
 
   private void HandleJump()
@@ -108,6 +113,9 @@ public class PlayerMovement : MonoBehaviour
 
   private void OnCollisionEnter2D(Collision2D collision)
   {
+    if (collision.collider.name == "Death Box") {
+        gameOverEvent.Raise();
+    }
     isGrounded = true;
     hasDashed = false;
     jumpCounter = 0;

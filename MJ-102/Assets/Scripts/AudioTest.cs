@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AudioTest : MonoBehaviour
 {
+    public GameEvent deathEvent;
 
     AudioSource[] songs;
 
@@ -17,16 +18,17 @@ public class AudioTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("d")) // Dead
-        {
-            songs[0].mute = true;
-            songs[1].mute = false;
+        if (Input.GetKeyDown(KeyCode.P)) {
+            deathEvent.Raise();
         }
+    }
 
-        if (Input.GetKeyDown("a")) // Alive
-        {
-            songs[0].mute = false;
-            songs[1].mute = true;
-        }
+    public void PlayHumanTheme() {
+        songs[0].mute = false;
+        songs[1].mute = true;
+    }
+    public void PlayGhostTheme() {
+        songs[0].mute = true;
+        songs[1].mute = false;
     }
 }
