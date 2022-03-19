@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private void HandleJump() {
         if (jumpCounter < 2 && !isDashing && Input.GetKeyDown(KeyCode.Z)) {
             anim.SetTrigger("Jump");
+            anim.SetBool("Land", false);
             body.velocity = new Vector2(body.velocity.x, speed + 5f);
             isGrounded = false;
             jumpCounter += 1;
@@ -53,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate() {
         if (!isDashing) {
+            anim.SetFloat("Y", body.velocity.y);
             float val = Input.GetAxis("Horizontal");
             bool inputDirection = val < 0;
             int magnitude = 0;
@@ -60,8 +62,10 @@ public class PlayerMovement : MonoBehaviour
                 magnitude = 0;
             } else if (inputDirection) {
                 magnitude = -1;
+                transform.localScale = new Vector3(0.5f, 0.5f, 1f);
             } else {
                 magnitude = 1;
+                transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
             }
             body.velocity = new Vector2(magnitude * speed, body.velocity.y);
             if (Input.GetAxis("Horizontal") != 0) {
@@ -87,5 +91,6 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = true;
         hasDashed = false;
         jumpCounter = 0;
+        anim.SetBool("Land", true);
     }
 }
