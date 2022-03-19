@@ -62,10 +62,10 @@ public class PlayerMovement : MonoBehaviour
                 magnitude = 0;
             } else if (inputDirection) {
                 magnitude = -1;
-                transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+                transform.localScale = new Vector3(1f, 1f, 1f);
             } else {
                 magnitude = 1;
-                transform.localScale = new Vector3(-0.5f, 0.5f, 1f);
+                transform.localScale = new Vector3(-1f, 1f, 1f);
             }
             body.velocity = new Vector2(magnitude * speed, body.velocity.y);
             if (Input.GetAxis("Horizontal") != 0) {
