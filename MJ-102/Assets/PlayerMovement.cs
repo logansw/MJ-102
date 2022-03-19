@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private const float DashDuration = 0.1f;
+
+    [SerializeField] private Animator anim;
     [SerializeField] private float speed;
     private Rigidbody2D body;
     private bool isGrounded;
@@ -28,10 +31,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleJump() {
         if (jumpCounter < 2 && !isDashing && Input.GetKeyDown(KeyCode.Z)) {
-             body.velocity = new Vector2(body.velocity.x, speed + 5f);
-             isGrounded = false;
-             jumpCounter += 1;
-             Debug.Log(jumpCounter);
+            anim.SetTrigger("Jump");
+            body.velocity = new Vector2(body.velocity.x, speed + 5f);
+            isGrounded = false;
+            jumpCounter += 1;
         }
     }
 
@@ -69,15 +72,16 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Dash(float direction) {
         isDashing = true;
+        anim.SetBool("Dash", true);
         body.velocity = new Vector2(0, 0f);
         body.AddForce(new Vector2(dashDistance * direction, 0f), ForceMode2D.Impulse);
         float gravity = body.gravityScale;
         body.gravityScale = 0;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(DashDuration);
         isDashing = false;
+        anim.SetBool("Dash", false);
         body.gravityScale = gravity;
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision) {
         isGrounded = true;
