@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerAttacks : MonoBehaviour
 {
 
+    [SerializeField] private Animator anim;
+
     private const float MeleeCD = 0.2f;
 
     private float meleeCDTimer;
@@ -21,10 +23,8 @@ public class PlayerAttacks : MonoBehaviour
     void Update()
     {
         meleeCDTimer += Time.deltaTime;
-        // print(meleeCDTimer);
         if (meleeCDTimer > MeleeCD) {
             meleeReady = true;
-            
         }
         HandleMelee();
     }
@@ -33,6 +33,7 @@ public class PlayerAttacks : MonoBehaviour
     {
         if (meleeReady && Input.GetKeyDown(KeyCode.C)) {
             print("ATTACK");
+            anim.SetTrigger("Attack");
             meleeCDTimer = 0;
             meleeReady = false;
         }
